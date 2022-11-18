@@ -5,14 +5,14 @@ import { FromRequest } from "~/httpUtils";
 import parseDuration from 'parse-duration';
 import config from 'app.config';
 
-const expire_time = parseDuration(config.session.expire_time, 'hour');
+const sessionLifeTime = parseDuration(config.session.expire_time, 'hour');
 
 export async function querySessionCreate(user_id: number): Promise<string> {
 	const token = uuidv4()
 
 	await db().query<FromRequest<Session>>(
 		'INSERT INTO wa_sessions (token, user_id, expires_in) VALUES (?, ?, CURRENT_TIMESTAMP + INTERVAL ? HOUR)', 
-		[token, user_id, expire_time]
+		[token, user_id, sessionLifeTime]
 	);
 	return token
 }
@@ -27,4 +27,16 @@ export async function querySessionFindByToken(token: string): Promise<Session | 
 
 export async function querySessionDeleteByToken(token: string) {
 	await db().query('DELETE FROM wa_sessions WHERE token = ?', [token]);
+}
+
+export async function querySessionExtendByToken(token: string) {
+	await db().query('UPDATE wa_sessions SET expires_in = CURRENT_TIMESTAMP + INTERVAL ? HOUR WHERE token = ?', [sessionLifeTime, token]);
+}
+
+export async function querySessionValidateByToken(token: string): Promise<boolean> {
+	const [result] = await db().query<FromRequest<{invalid: boolean}>>(
+		'SELECT CURRENT_TIMESTAMP > expires_in as invalid FROM wa_sessions WHERE token = ?', 
+		[token]
+	);
+	return result[0].invalid;
 }

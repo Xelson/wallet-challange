@@ -1,7 +1,9 @@
 import { 
 	querySessionCreate, 
 	querySessionDeleteByToken, 
-	querySessionFindByToken 
+	querySessionExtendByToken, 
+	querySessionFindByToken, 
+	querySessionValidateByToken
 } from "~/service/session";
 
 import { invariant } from "~/invariant";
@@ -20,4 +22,11 @@ export async function actionUserLogout(token: string) {
 	invariant(session, 'Invalid session');
 
 	await querySessionDeleteByToken(session.token);
+}
+
+export async function actionSessionValidateAndExtend(token: string) {
+	const isInvalid = await querySessionValidateByToken(token);
+	invariant(!isInvalid, 'This session has expired');
+	
+	await querySessionExtendByToken(token);
 }

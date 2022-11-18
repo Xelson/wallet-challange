@@ -4,11 +4,14 @@
 	},
 	"dependencies": {
 		"@types/node": "^18.11.9",
+		"@types/uuid": "^8.3.4",
 		"gulp": "^4.0.2",
 		"gulp-esbuild": "^0.10.6",
 		"gulp-nodemon": "^2.2.1",
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"mysql2": "^2.3.3",
-		"typescript": "^4.9.3"
+		"parse-duration": "^1.0.2",
+		"typescript": "^4.9.3",
+		"uuid": "^9.0.0"
 	}
 }

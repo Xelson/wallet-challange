@@ -3,7 +3,7 @@
 		"strictNullChecks": true,
 		"allowJs": true,
 		"checkJs": false,
-		"module": "commonjs",
+		"module": "system",
 		"target": "ES6",
 		"noImplicitAny": true,
 		"removeComments": true,

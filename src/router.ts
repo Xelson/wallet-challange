@@ -41,7 +41,9 @@ export class Router {
 
 		for(const h of this.handlers) {
 			if(h.method == method && h.path == url.pathname) {
-				return await h.handler(request, response);
+				await h.handler(request, response);
+				response.end();
+				return;
 			}
 		}
 

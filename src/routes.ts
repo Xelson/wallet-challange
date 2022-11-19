@@ -22,14 +22,12 @@ ApplicationRouter
 		const token = await actionUserLogin(username, password);
 
 		res.write(`Token: ${token}`);
-		res.end();
 	})
 	.post('/auth/logout', async (req, res) => {
 		const token = await incomingMessageParseToken(req);
 		await actionUserLogout(token);
 		
 		res.write('Current session is was deactivated');
-		res.end();
 	})
 
 ApplicationRouter
@@ -38,7 +36,6 @@ ApplicationRouter
 		const balance = await actionGetUserBalanceByToken(token);
 
 		res.write(balance.toString());
-		res.end();
 	})
 
 ApplicationRouter
@@ -50,7 +47,6 @@ ApplicationRouter
 		const transactions = await actionWalletGetTransactions(token, limit);
 
 		res.write(JSON.stringify(transactions));
-		res.end();
 	})
 	.post('/wallet/deposit', async (req, res) => {
 		const token = await incomingMessageParseToken(req);
@@ -60,8 +56,6 @@ ApplicationRouter
 		invariant(!isNaN(value), 'Invalid "value" paramater');
 
 		await actionWalletExecuteTransaction(token, TransactionType.deposit, value);
-
-		res.end();
 	})
 	.post('/wallet/withdraw', async (req, res) => {
 		const token = await incomingMessageParseToken(req);
@@ -71,6 +65,4 @@ ApplicationRouter
 		invariant(!isNaN(value), 'Invalid "value" paramater');
 
 		await actionWalletExecuteTransaction(token, TransactionType.withdraw, value);
-
-		res.end();
 	})

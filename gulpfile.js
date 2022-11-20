@@ -9,7 +9,20 @@ const {
 const nodemon = require('gulp-nodemon');
 const esbuild = require('gulp-esbuild');
 
+const workers = ['transaction']
+
 task('build:server', () => {
+	workers.map(w => {
+		src(`src/workers/${w}.worker.ts`)
+		.pipe(esbuild({
+			outfile: `${w}.worker.js`,
+			bundle: true,
+			platform: 'node',
+			logLevel: 'info'
+		}))
+		.pipe(dest('./dist'))
+	});	
+
     return src('src/index.ts')
 		.pipe(esbuild({
 			bundle: true,

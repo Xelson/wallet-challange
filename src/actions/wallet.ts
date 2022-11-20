@@ -35,9 +35,12 @@ export async function actionWalletExecuteTransaction(token: string, type: Transa
 				);
 
 				await connection.commit();
+				connection.release();
 			}
 			catch (error) {
 				await connection.rollback();
+				connection.release();
+
 				throw error;
 			}
 
@@ -59,11 +62,15 @@ export async function actionWalletExecuteTransaction(token: string, type: Transa
 				);
 
 				await connection.commit();
+				connection.release();
 			}
 			catch (error) {
 				await connection.rollback();
+				connection.release();
+
 				throw error;
 			}
+			connection.release();
 
 			break;
 	}

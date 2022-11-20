@@ -7,8 +7,9 @@ import { Router } from "./router";
 import { invariant } from "./invariant";
 import { actionUserLogin, actionUserLogout } from "./actions/auth";
 import { actionGetUserBalanceByToken } from "./actions/user";
-import { actionWalletExecuteTransaction, actionWalletGetTransactions } from "./actions/wallet";
+import { actionWalletGetTransactions } from "./actions/wallet";
 import { TransactionType } from "./models/Transaction";
+import { workerTransactionPushRequest } from "./workers";
 
 export const ApplicationRouter = new Router();
 
@@ -55,7 +56,9 @@ ApplicationRouter
 		const value = Number(query.value);
 		invariant(!isNaN(value), 'Invalid "value" paramater');
 
-		await actionWalletExecuteTransaction(token, TransactionType.deposit, value);
+		const result = await workerTransactionPushRequest({token, type: TransactionType.deposit, value});
+		
+		res.write(result);
 	})
 	.post('/wallet/withdraw', async (req, res) => {
 		const token = await incomingMessageParseToken(req);
@@ -64,5 +67,7 @@ ApplicationRouter
 		const value = Number(query.value);
 		invariant(!isNaN(value), 'Invalid "value" paramater');
 
-		await actionWalletExecuteTransaction(token, TransactionType.withdraw, value);
+		const result = await workerTransactionPushRequest({token, type: TransactionType.withdraw, value});
+
+		res.write(result);
 	})

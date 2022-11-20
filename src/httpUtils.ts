@@ -8,10 +8,10 @@ export type FromRequest<T> = (T & RowDataPacket)[];
 export async function incomingMessageReadBody(message: IncomingMessage) {
 	let data = '';
 
-	return new Promise<string>(resolve => {
-		message.on('error', error => {throw error});
-		message.on('data', chunk => data += chunk);
-		message.on('end', () => resolve(data));
+	return new Promise<string>((resolve, reject) => {
+		message.once('data', chunk => data += chunk);
+		message.once('end', () => resolve(data));
+		message.once('error', reject);
 	});
 }
 

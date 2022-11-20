@@ -10,3 +10,7 @@ export interface Transaction {
 	type: TransactionType,
 	value: number
 }
+
+export interface TransactionRequest extends Pick<Transaction, 'type' | 'value'> {
+	token: string,
+}

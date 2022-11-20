@@ -1,6 +1,8 @@
 {
 	"scripts": {
-		"dev": "gulp dev"
+		"dev": "gulp dev",
+		"build": "gulp build:server",
+		"serve": "node ./dist/index.js"
 	},
 	"dependencies": {
 		"@types/node": "^18.11.9",

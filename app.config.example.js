@@ -7,5 +7,8 @@ export default {
 		user: '',
 		password: '',
 		database: ''
+	},
+	session: {
+		expire_time: '1h'
 	}
 }

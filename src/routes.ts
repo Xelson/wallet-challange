@@ -28,7 +28,7 @@ ApplicationRouter
 		const token = await incomingMessageParseToken(req);
 		await actionUserLogout(token);
 		
-		res.write('Current session is was deactivated');
+		res.write('The current session has been deactivated');
 	})
 
 ApplicationRouter

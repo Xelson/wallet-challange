@@ -38,5 +38,5 @@ export async function querySessionValidateByToken(token: string): Promise<boolea
 		'SELECT CURRENT_TIMESTAMP > expires_in as invalid FROM wa_sessions WHERE token = ?', 
 		[token]
 	);
-	return result[0].invalid;
+	return !result[0] || result[0].invalid;
 }

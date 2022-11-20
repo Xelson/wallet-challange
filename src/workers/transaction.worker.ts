@@ -1,4 +1,3 @@
-import { request } from 'node:http';
 import { parentPort, isMainThread } from 'node:worker_threads';
 import { actionWalletExecuteTransaction } from '~/actions/wallet';
 import { TransactionRequest } from '~/models/Transaction';

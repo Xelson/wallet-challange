@@ -26,7 +26,7 @@ export async function actionUserLogout(token: string) {
 
 export async function actionSessionValidateAndExtend(token: string) {
 	const isInvalid = await querySessionValidateByToken(token);
-	invariant(!isInvalid, 'This session has expired');
+	invariant(!isInvalid, 'This session is invalid or expired');
 	
 	await querySessionExtendByToken(token);
 }

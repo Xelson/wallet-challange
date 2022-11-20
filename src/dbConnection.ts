@@ -1,4 +1,4 @@
-import mysql, { RowDataPacket } from 'mysql2'
+import mysql from 'mysql2'
 import config from 'app.config';
 
 const pool = mysql.createPool({
